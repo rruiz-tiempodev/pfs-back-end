@@ -1,7 +1,8 @@
 package com.fs.actor
 
-import akka.actor.{Actor}
-import com.fs.actor.FixedExpenseActor.{AddFixedExpense, FixedExpenseAdded, GetFixedExpense}
+import akka.actor.Actor
+import com.fs.actor.FixedExpenseActor.{AddFixedExpense, FixedExpenseAdded, GetFixedExpense, GetFixedExpenses, UpdateFixedExpense}
+import com.fs.entity.ExpenseType.ExpenseType
 import com.fs.entity.FixedExpense
 
 class FixedExpenseActor extends Actor {
@@ -15,6 +16,12 @@ class FixedExpenseActor extends Actor {
       val newStore = store + (expense.id -> expense)
       sender() ! FixedExpenseAdded(expense.id)
       context.become(handleRequests(newStore))
+    case UpdateFixedExpense(id, expense: FixedExpense) =>
+      val newStore = store + (id -> expense)
+      sender() ! ""
+      context.become(handleRequests(newStore))
+    case GetFixedExpenses =>
+      sender() ! store.values.toList
   }
 }
 
@@ -22,5 +29,8 @@ object FixedExpenseActor {
   case class GetFixedExpense(id: String)
   case class AddFixedExpense(expense: FixedExpense)
   case class FixedExpenseAdded(id: String)
+  case class GetFixedExpensesByType(expenseType: ExpenseType)
+  case class UpdateFixedExpense(id: String, expense: FixedExpense)
+  object GetFixedExpenses
 }
 

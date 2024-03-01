@@ -1,7 +1,7 @@
 package com.fs.controller
 
 import com.fs.DefaultJsonFormats
-import com.fs.actor.FixedExpenseActor.FixedExpenseAdded
+import com.fs.actor.FixedExpenseActor.{FixedExpenseAdded, UpdateFixedExpense}
 import com.fs.entity.{ExpenseType, FixedExpense}
 import spray.json.{DeserializationException, JsString, JsValue, RootJsonFormat}
 
@@ -18,5 +18,6 @@ trait CustomJsonProtocols extends DefaultJsonFormats {
   }
 
   implicit val fixedExpenseAdded = jsonFormat1(FixedExpenseAdded)
-  implicit val fixedExpense = jsonFormat3(FixedExpense)
+  implicit val fixedExpense = jsonFormat5(FixedExpense)
+  implicit val updateFixedExpense = jsonFormat2(UpdateFixedExpense)
 }
