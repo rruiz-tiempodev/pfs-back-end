@@ -17,6 +17,7 @@ class FixedExpenseActor extends Actor {
       sender() ! FixedExpenseAdded(expense.id)
       context.become(handleRequests(newStore))
     case UpdateFixedExpense(id, expense: FixedExpense) =>
+      store(id)
       val newStore = store + (id -> expense)
       sender() ! ""
       context.become(handleRequests(newStore))
