@@ -1,8 +1,10 @@
 package com.fs.actor
 
 import akka.actor.Actor
-import com.fs.actor.ExpenseActor.GetExpense
+import com.fs.LocalUtils
+import com.fs.actor.ExpenseActor.{GetExpense, GetExpensesByMonth}
 import com.fs.entity.Expense
+import com.fs.entity.ExpenseType.ExpenseType
 
 class ExpenseActor extends Actor {
 
@@ -12,11 +14,15 @@ class ExpenseActor extends Actor {
     case GetExpense(id) =>
       sender() ! store.get(id)
       context.become(handleExpenses(store))
+    case GetExpensesByMonth(year, month, expenseType) =>
+      val fixedExpenses = LocalUtils.fixedExpenses
+
   }
 }
 
 object ExpenseActor {
   case class GetExpense(id: String)
+  case class GetExpensesByMonth(year: Int, month: Int, expenseType: ExpenseType)
 }
 
 
