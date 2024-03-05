@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.{Consumes, GET, Path, Produces}
 
-import java.time.{ZoneId, ZonedDateTime}
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
 @Path("/expense")
@@ -36,25 +35,7 @@ case class ExpenseController(actor: ActorRef) (implicit executionContext: Execut
         }
     }
 
-  @GET
-  @Consumes(Array(MediaType.APPLICATION_JSON))
-  @Produces(Array(MediaType.APPLICATION_JSON))
-  @Operation(method= "GET", summary = "Get the weekly expenses by month", description = "Get the weekly expenses by month",
-    responses = Array(
-      new ApiResponse(responseCode = "200", description = "Get response"),
-      new ApiResponse(responseCode = "500", description = "Internal server error")
-    ))
-  def getByWeeklyExpensesByMonthRoutes: Route =
-    pathPrefix("by-month") {
-      get {
-        parameters(Symbol("year").as[Int], Symbol("month").as[Int], Symbol("zone").as[String]) { (year:Int, month: Int, zone: String) =>
-          val zoneId = ZoneId.SHORT_IDS.get(zone)
-          val zonedMonth = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, ZoneId.of(zoneId))
 
-          complete(StatusCodes.OK, zonedMonth.toString)
-        }
-      }
-    }
 
-  val routes: Route = pathPrefix("expense") { getByWeeklyExpensesByMonthRoutes ~ getExpenseRoutes }
+  val routes: Route = pathPrefix("expense") { getExpenseRoutes }
 }

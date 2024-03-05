@@ -2,7 +2,8 @@ package com.fs.controller
 
 import com.fs.DefaultJsonFormats
 import com.fs.actor.FixedExpenseActor.{FixedExpenseAdded, UpdateFixedExpense}
-import com.fs.entity.{Currency, Expense, ExpenseType, FixedExpense}
+import com.fs.actor.IncomeActor.IncomeAdded
+import com.fs.entity.{Budget, Currency, Expense, FixedExpense, Income, IncomeExpenseType}
 import spray.json.{DeserializationException, JsString, JsValue, RootJsonFormat}
 
 import java.time.ZonedDateTime
@@ -27,17 +28,21 @@ trait CustomJsonProtocols extends DefaultJsonFormats {
     }
   }
 
-  implicit object ExpenseTypeJsonFormat extends RootJsonFormat[ExpenseType.ExpenseType ] {
-    def write(obj: ExpenseType.ExpenseType): JsValue = JsString(obj.toString)
+  implicit object IncomeExpenseTypeJsonFormat extends RootJsonFormat[IncomeExpenseType.IncomeExpenseType ] {
+    def write(obj: IncomeExpenseType.IncomeExpenseType): JsValue = JsString(obj.toString)
 
-    def read(json: JsValue): ExpenseType.ExpenseType = json match {
-      case JsString(str) => ExpenseType.withName(str)
+    def read(json: JsValue): IncomeExpenseType.IncomeExpenseType = json match {
+      case JsString(str) => IncomeExpenseType.withName(str)
       case _ => throw new DeserializationException("Enum string expected")
     }
   }
+
 
   implicit val fixedExpenseAdded = jsonFormat1(FixedExpenseAdded)
   implicit val fixedExpense = jsonFormat5(FixedExpense)
   implicit val expense = jsonFormat8(Expense)
   implicit val updateFixedExpense = jsonFormat2(UpdateFixedExpense)
+  implicit val income = jsonFormat5(Income)
+  implicit val incomeAdded = jsonFormat1(IncomeAdded)
+  implicit val budget = jsonFormat6(Budget)
 }

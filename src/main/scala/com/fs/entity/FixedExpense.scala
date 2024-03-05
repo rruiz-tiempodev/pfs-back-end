@@ -1,9 +1,10 @@
 package com.fs.entity
 
 import com.fs.entity.Currency.Currency
-import com.fs.entity.ExpenseType.ExpenseType
+import com.fs.entity.IncomeExpenseType.IncomeExpenseType
 
 
 
-case class FixedExpense(id:String, amount: BigDecimal, expenseType: ExpenseType, description: String, currency: Currency)
+
+case class FixedExpense(id:String, amount: BigDecimal, expenseType: IncomeExpenseType, description: String, currency: Currency)
 
