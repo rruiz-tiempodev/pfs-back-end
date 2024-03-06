@@ -4,8 +4,10 @@ import akka.actor.ActorRef
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import akka.pattern.BackoffOpts.onFailure
 import akka.pattern.ask
 import akka.util.Timeout
+import com.fs.CustomJsonProtocols
 import com.fs.actor.BudgetActor.GetBudgetByMonth
 import com.fs.entity.{Budget, IncomeExpenseType}
 import com.fs.entity.IncomeExpenseType.IncomeExpenseType
@@ -19,7 +21,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
 @Path("/budget")
 case class BudgetController(budgetActor: ActorRef)(implicit executionContext: ExecutionContext) extends CustomJsonProtocols {
-  implicit val timeout: Timeout = Timeout(2.seconds)
+  implicit val timeout: Timeout = Timeout(10.seconds)
 
   @GET
   @Consumes(Array(MediaType.APPLICATION_JSON))
@@ -37,6 +39,7 @@ case class BudgetController(budgetActor: ActorRef)(implicit executionContext: Ex
           val zoneId = ZoneId.SHORT_IDS.get(zone)
           val zonedMonth = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, ZoneId.of(zoneId))
           val future = (budgetActor ? GetBudgetByMonth(zonedMonth, IncomeExpenseType.withName(ieType))).mapTo[List[Budget]]
+
           complete(StatusCodes.OK, future)
         }
       }

@@ -6,6 +6,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ExceptionHandler, Route}
 import akka.pattern.ask
 import akka.util.Timeout
+import com.fs.CustomJsonProtocols
 import com.fs.actor.FixedExpenseActor.{AddFixedExpense, FixedExpenseAdded, GetFixedExpense, GetFixedExpenses, UpdateFixedExpense}
 import com.fs.entity.FixedExpense
 import com.fs.swagger.SwaggerDocService.handleExceptions

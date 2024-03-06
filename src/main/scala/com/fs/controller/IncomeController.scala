@@ -6,6 +6,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ExceptionHandler, Route}
 import akka.pattern.ask
 import akka.util.Timeout
+import com.fs.CustomJsonProtocols
 import com.fs.actor.IncomeActor.{AddIncome, GetIncome, GetIncomes, IncomeAdded, UpdateIncome}
 import com.fs.entity.Income
 import com.fs.swagger.SwaggerDocService.handleExceptions

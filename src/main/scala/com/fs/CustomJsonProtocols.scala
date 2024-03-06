@@ -1,14 +1,18 @@
-package com.fs.controller
+package com.fs
 
-import com.fs.DefaultJsonFormats
 import com.fs.actor.FixedExpenseActor.{FixedExpenseAdded, UpdateFixedExpense}
 import com.fs.actor.IncomeActor.IncomeAdded
-import com.fs.entity.{Budget, Currency, Expense, FixedExpense, Income, IncomeExpenseType}
+import com.fs.entity._
 import spray.json.{DeserializationException, JsString, JsValue, RootJsonFormat}
 
 import java.time.ZonedDateTime
 
 trait CustomJsonProtocols extends DefaultJsonFormats {
+
+  implicit object CurrencyExchangeJsonFormat extends RootJsonFormat[Map[String, BigDecimal]] {
+    override def write(obj: Map[String, BigDecimal]): JsValue = mapFormat[String, BigDecimal].write(obj)
+    override def read(json: JsValue): Map[String, BigDecimal] = mapFormat[String, BigDecimal].read(json)
+  }
 
   implicit object ZonedDateTimeJsonFormat extends RootJsonFormat[ZonedDateTime] {
     def write(obj: ZonedDateTime): JsValue = JsString(obj.toString)
@@ -19,7 +23,7 @@ trait CustomJsonProtocols extends DefaultJsonFormats {
     }
   }
 
-  implicit object CurrencyJsonFormat extends RootJsonFormat[Currency.Currency ] {
+  implicit object CurrencyJsonFormat extends RootJsonFormat[Currency.Currency] {
     def write(obj: Currency.Currency): JsValue = JsString(obj.toString)
 
     def read(json: JsValue): Currency.Currency = json match {
@@ -28,7 +32,7 @@ trait CustomJsonProtocols extends DefaultJsonFormats {
     }
   }
 
-  implicit object IncomeExpenseTypeJsonFormat extends RootJsonFormat[IncomeExpenseType.IncomeExpenseType ] {
+  implicit object IncomeExpenseTypeJsonFormat extends RootJsonFormat[IncomeExpenseType.IncomeExpenseType] {
     def write(obj: IncomeExpenseType.IncomeExpenseType): JsValue = JsString(obj.toString)
 
     def read(json: JsValue): IncomeExpenseType.IncomeExpenseType = json match {
