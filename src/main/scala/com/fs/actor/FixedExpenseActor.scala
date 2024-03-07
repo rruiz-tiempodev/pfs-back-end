@@ -2,8 +2,8 @@ package com.fs.actor
 
 import akka.actor.Actor
 import com.fs.actor.FixedExpenseActor.{AddFixedExpense, FixedExpenseAdded, GetFixedExpense, GetFixedExpenses, UpdateFixedExpense}
-import com.fs.entity.ExpenseType.ExpenseType
 import com.fs.entity.FixedExpense
+import com.fs.entity.IncomeExpenseType.IncomeExpenseType
 
 class FixedExpenseActor extends Actor {
   override def receive: Receive = handleRequests(Map())
@@ -30,7 +30,7 @@ object FixedExpenseActor {
   case class GetFixedExpense(id: String)
   case class AddFixedExpense(expense: FixedExpense)
   case class FixedExpenseAdded(id: String)
-  case class GetFixedExpensesByType(expenseType: ExpenseType)
+  case class GetFixedExpensesByType(expenseType: IncomeExpenseType)
   case class UpdateFixedExpense(id: String, expense: FixedExpense)
   object GetFixedExpenses
 }

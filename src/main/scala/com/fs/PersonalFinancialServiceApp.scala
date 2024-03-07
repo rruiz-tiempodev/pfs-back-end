@@ -7,7 +7,7 @@ import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import com.fs.actor.{BudgetActor, FixedExpenseActor, IncomeActor}
 import com.fs.actor.FixedExpenseActor.AddFixedExpense
 import com.fs.actor.IncomeActor.AddIncome
-import com.fs.controller.{ExpenseController, FixedExpenseController, BudgetController, IncomeController}
+import com.fs.controller.{BudgetController, CurrencyExchangeController, ExpenseController, FixedExpenseController, IncomeController}
 import com.fs.swagger.SwaggerDocService
 
 import java.util.UUID.randomUUID
@@ -26,6 +26,7 @@ object PersonalFinancialServiceApp extends App {
             ExpenseController(null).routes ~
             FixedExpenseController(fixedExpenseActor).routes ~
             IncomeController(incomeActor).routes ~
+              CurrencyExchangeController().routes ~
             SwaggerDocService.routes
   })
 

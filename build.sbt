@@ -26,5 +26,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
   "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
   "ch.megard" %% "akka-http-cors" % "1.1.3",
-  "org.slf4j" % "slf4j-simple" % "2.0.7"
+  "org.slf4j" % "slf4j-simple" % "2.0.7",
+  "com.github.cb372" %% "scalacache-core" % "0.28.0",
+  "com.github.cb372" %% "scalacache-guava" % "0.28.0"
 ) ++ swaggerDependencies

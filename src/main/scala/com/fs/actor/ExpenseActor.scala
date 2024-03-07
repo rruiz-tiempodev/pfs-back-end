@@ -4,7 +4,8 @@ import akka.actor.Actor
 import com.fs.LocalUtils
 import com.fs.actor.ExpenseActor.{GetExpense, GetExpensesByMonth}
 import com.fs.entity.Expense
-import com.fs.entity.ExpenseType.ExpenseType
+import com.fs.entity.IncomeExpenseType.IncomeExpenseType
+
 
 class ExpenseActor extends Actor {
 
@@ -22,7 +23,7 @@ class ExpenseActor extends Actor {
 
 object ExpenseActor {
   case class GetExpense(id: String)
-  case class GetExpensesByMonth(year: Int, month: Int, expenseType: ExpenseType)
+  case class GetExpensesByMonth(year: Int, month: Int, expenseType: IncomeExpenseType)
 }
 
 

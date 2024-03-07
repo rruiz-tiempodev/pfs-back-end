@@ -19,6 +19,7 @@ import jakarta.ws.rs.{Consumes, GET, Path, Produces}
 import java.time.{ZoneId, ZonedDateTime}
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
+import scala.util.{Failure, Success}
 @Path("/budget")
 case class BudgetController(budgetActor: ActorRef)(implicit executionContext: ExecutionContext) extends CustomJsonProtocols {
   implicit val timeout: Timeout = Timeout(2.seconds)
@@ -39,9 +40,6 @@ case class BudgetController(budgetActor: ActorRef)(implicit executionContext: Ex
             val zoneId = ZoneId.SHORT_IDS.get(zone)
             val zonedMonth = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, ZoneId.of(zoneId))
             val future = (budgetActor ? GetBudgetByMonth(zonedMonth, IncomeExpenseType.withName(ieType))).mapTo[List[Budget]]
-              future.map { budget =>
-              println(s"The budget $budget")
-            }
             complete(StatusCodes.OK, future)
         }
       }

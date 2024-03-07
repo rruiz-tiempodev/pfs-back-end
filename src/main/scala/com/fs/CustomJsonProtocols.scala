@@ -48,5 +48,5 @@ trait CustomJsonProtocols extends DefaultJsonFormats {
   implicit val updateFixedExpense = jsonFormat2(UpdateFixedExpense)
   implicit val income = jsonFormat5(Income)
   implicit val incomeAdded = jsonFormat1(IncomeAdded)
-  implicit val budget = jsonFormat6(Budget)
+  implicit val budget = jsonFormat5(Budget)
 }
