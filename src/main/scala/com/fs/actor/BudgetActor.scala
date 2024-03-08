@@ -34,29 +34,7 @@ class BudgetActor extends Actor with ActorLogging {
         theSender ! getMonthlyBudgetByMonth(budgetContext)
         context.become(handleRequests(store))
       }
-      /*retrieveExchangeRateAndCreateContext.map { budgetContext =>
-        budgetContext.month = month
-        createIncomesEndExpenses(budgetContext, LocalUtils.incomes, LocalUtils.fixedExpenses)
-        if (incomeExpenseType == IncomeExpenseType.WEEKLY) {
-          theSender ! getWeeklyBudgetByMonth(budgetContext)
-          context.become(handleRequests(store))
-        } else {
-          theSender ! getMonthlyBudgetByMonth(budgetContext)
-          context.become(handleRequests(store))
-        }
-      }*/
   }
-
-  /*def retrieveExchangeRateAndCreateContext: Future[BudgetContext] = {
-    val response = Http().singleRequest(HttpRequest(uri = "https://free.currconv.com/api/v7/convert?q=USD_MXN,MXN_USD&compact=ultra&apiKey=10f6e25f5f39ee453139"))
-    response.flatMap { res =>
-      Unmarshal(res.entity).to[String].flatMap { exchange =>
-        Unmarshal(exchange).to[Map[String, BigDecimal]].map { map =>
-          BudgetContext(map.get("USD_MXN").get, map.get("MXN_USD").get)
-        }
-      }
-    }
-  }*/
 
   def createIncomesEndExpenses(context: BudgetContext, incomes:List[Income], fixedExpenses: List[FixedExpense]) = {
     context.weeklyExpenses = fixedExpenses.filter(_.expenseType == IncomeExpenseType.WEEKLY)
